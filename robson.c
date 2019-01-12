@@ -11,7 +11,7 @@ void turnRight();
 void turnLeft();
 void walkToFront(int miles);
 void walkToBack(int miles);
-void setDistanceTotal(int miles);
+void setDistanceTotal();
 void getDistanceTotal();
 void setDistanceRight(int miles);
 void getDistanceRight();
@@ -20,6 +20,7 @@ void getDistanceLeft();
 void setupRobson();
 int checkRobson();
 void wakeUpRobson();
+void sleepRobson();
 
 typedef struct {
 
@@ -34,35 +35,57 @@ typedef struct {
 robsonStruct robson;
 
 int main(void){
-
+    setupRobson();
+    wakeUpRobson();
     turnRight();
     walkToFront(100);
     turnLeft();
     walkToFront(200);
-    getMiles();
+    setDistanceTotal();
+    getDistanceTotal();
+    getDistanceLeft();
+    getDistanceRight();
+    sleepRobson();
+    turnLeft();
 
     system("pause");
     return 0;
 }
 
 void turnRight(){
-    printf("Virando para a %s ! \n\n", RIGHT);
-    strcpy(robson.direction, RIGHT);
+    if(checkRobson()){
+        printf("Virando para a %s ! \n\n", RIGHT);
+        strcpy(robson.direction, RIGHT);
+    }
 }
 
 void turnLeft(){
-    printf("Virando para a %s ! \n\n", LEFT);
-    strcpy(robson.direction, LEFT);
+    if(checkRobson()){
+        printf("Virando para a %s ! \n\n", LEFT);
+        strcpy(robson.direction, LEFT);
+    }
 }
 
 void walkToBack(int miles){
-    printf("Voltando %d metros em direcao a %s!\n\n", miles, robson.direction);
-    setMiles(miles);
+    if(checkRobson()){
+        printf("Voltando %d metros em direcao a %s!\n\n", miles, robson.direction);
+        if( strcmp(robson.direction, LEFT) == 0 ){
+            setDistanceLeft(miles);
+        }else if ( strcmp(robson.direction, RIGHT) == 0 ){
+            setDistanceRight(miles);
+        }
+    }
 }
 
 void walkToFront(int miles){
-    printf("Andando %d metros em direcao a %s! \n\n", miles, robson.direction);
-    setMiles(miles);
+    if(checkRobson()){
+        printf("Andando %d metros em direcao a %s! \n\n", miles, robson.direction);
+        if( strcmp(robson.direction, LEFT) == 0 ){
+            setDistanceLeft(miles);
+        }else if ( strcmp(robson.direction, RIGHT) == 0 ){
+            setDistanceRight(miles);
+        }
+    }
 }
 
 void setDistanceTotal(int miles){
@@ -70,23 +93,28 @@ void setDistanceTotal(int miles){
 }
 
 void getDistanceTotal(){
-    printf("O Robson andou %d metros no total !\n\n", robson.distanceTotalWalked);
+    if(checkRobson())
+        printf("O Robson andou %d metros no total !\n\n", robson.distanceTotalWalked);
 }
 
 void setDistanceLeft(int miles){
-    robson.distanceWalkedToLeft += miles;
+    if(checkRobson())
+        robson.distanceWalkedToLeft += miles;
 }
 
 void getDistanceLeft(){
-    printf("O Robson andou %d metros para a %s !\n\n", LEFT);
+    if(checkRobson())
+        printf("O Robson andou %d metros para a %s !\n\n", robson.distanceWalkedToLeft, LEFT);
 }
 
 void setDistanceRight(int miles){
-    robson.distanceWalkedToRight += miles;
+    if(checkRobson())
+        robson.distanceWalkedToRight += miles;
 }
 
 void getDistanceRight(){
-    printf("O Robson andou %d metros para a %s ! \n\n", RIGHT);
+    if(checkRobson())
+        printf("O Robson andou %d metros para a %s ! \n\n", robson.distanceWalkedToRight, RIGHT);
 }
 
 void setupRobson(){
@@ -106,6 +134,19 @@ int checkRobson(){
 }
 
 void wakeUpRobson(){
-    robson.on = TRUE;
-    printf("O gigante acordouu !\n\n");
+    if(robson.on == TRUE){
+        printf("Robson já esta acordadooo !");
+    }else{
+        robson.on = TRUE;
+        printf("O gigante acordouu !\n\n");
+    }
+}
+
+void sleepRobson(){
+    if(robson.on == FALSE){
+        printf("Robson ja esta dormindoo !\n\n");
+    }else{
+        robson.on = FALSE;
+        printf("Robson morreu rapidao ! \n\n");
+    }
 }
