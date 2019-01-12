@@ -88,7 +88,7 @@ void walkToFront(int miles){
     }
 }
 
-void setDistanceTotal(int miles){
+void setDistanceTotal(){
     robson.distanceTotalWalked = robson.distanceWalkedToLeft + robson.distanceWalkedToRight;
 }
 
